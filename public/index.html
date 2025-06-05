@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <div class="info">
+      <p class="txt-1">Gracias por visitarnos</p>
+      <h2>Bienvenido de nuevo</h2>
+      <hr>
+      <p>Ingrese sus datos para usar todas las funcionalidades de la página.</p>
+    </div>
+
+    <form class="form" onsubmit="return loginUser(event)">
+      <h2>Login</h2>
+      <p>
+        Bienvenido al login general. Aquí puedes poner tus datos proporcionados por el administrador y líder de los gorflacos.
+      </p>
+
+      <div class="inputs">
+        <input type="email" id="email" class="box" placeholder="Ingresa tu correo" required />
+        <input type="password" id="password" class="box" placeholder="Ingresa tu contraseña" required />
+        <a href="#">¿Olvidaste tu contraseña?</a>
+        <input type="submit" value="Iniciar sesión" class="submit" />
+      </div>
+    </form>
+  </div>
+
+  <script>
+    async function loginUser(event) {
+      event.preventDefault();
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
+
+      if (response.ok) {
+        window.location.href = 'dashboard.html';
+      } else {
+        alert("Correo o contraseña incorrectos.");
+      }
+    }
+  </script>
+
+</body>
+</html>

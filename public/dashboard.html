@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inbox - Gorflacos Mail</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      background-image: url('https://wallpaperaccess.com/full/317501.jpg'); /* Cambia el fondo si quieres */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      text-align: center;
+      font-size: 1.8em;
+      font-weight: bold;
+      letter-spacing: 1px;
+      backdrop-filter: blur(5px);
+    }
+
+    .container {
+      padding: 30px;
+      max-width: 800px;
+      margin: auto;
+      flex: 1;
+    }
+
+    .editor {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .editor textarea {
+      width: 100%;
+      padding: 15px;
+      font-size: 1em;
+      border-radius: 10px;
+      border: none;
+      resize: vertical;
+      min-height: 120px;
+      background-color: #fff;
+      color: #000;
+    }
+
+    .send-btn {
+      margin-top: 15px;
+      padding: 12px 25px;
+      background-color: #00b894;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .send-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .message-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .message {
+      background-color: rgba(255, 255, 255, 0.12);
+      padding: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .message:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 99;
+    }
+
+    .modal-content {
+      background-color: #222;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 500px;
+      color: white;
+      position: relative;
+    }
+
+    .modal-content p {
+      font-size: 1.1em;
+    }
+
+    .close {
+      position: absolute;
+      right: 20px;
+      top: 10px;
+      cursor: pointer;
+      font-size: 20px;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    📬 Gorflacos Inbox
+  </header>
+
+  <div class="container">
+
+    <div class="editor">
+      <textarea id="messageInput" placeholder="Escribe tu mensaje aquí..."></textarea>
+      <button class="send-btn" onclick="sendMessage()">Enviar mensaje</button>
+    </div>
+
+    <div class="message-list" id="messageList">
+      <!-- Mensajes aparecerán aquí -->
+    </div>
+
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">✖</span>
+      <p id="modalMessage"></p>
+    </div>
+  </div>
+
+  <script>
+    const messages = [];
+
+    function sendMessage() {
+      const input = document.getElementById("messageInput");
+      const text = input.value.trim();
+      if (text === "") return;
+
+      messages.push(text);
+      renderMessages();
+      input.value = "";
+    }
+
+    function renderMessages() {
+      const list = document.getElementById("messageList");
+      list.innerHTML = "";
+
+      messages.forEach((msg, index) => {
+        const div = document.createElement("div");
+        div.className = "message";
+        div.textContent = "📨 Mensaje #" + (index + 1);
+        div.onclick = () => showModal(msg);
+        list.appendChild(div);
+      });
+    }
+
+    function showModal(msg) {
+      document.getElementById("modalMessage").textContent = msg;
+      document.getElementById("modal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
